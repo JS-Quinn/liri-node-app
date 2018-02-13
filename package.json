@@ -1,0 +1,34 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "Language Interpretation Recognition Interface. It's an assignment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JS-Quinn/liri-node-app.git"
+  },
+  "keywords": [
+    "liri",
+    "language",
+    "interpretation",
+    "recognition",
+    "interface",
+    "bootcamp",
+    "coding"
+  ],
+  "author": "Joseph S Quinn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JS-Quinn/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/JS-Quinn/liri-node-app#readme",
+  "dependencies": {
+    "dotenv": "^5.0.0",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.83.0",
+    "twitter": "^1.7.1"
+  }
+}
