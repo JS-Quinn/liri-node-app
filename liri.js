@@ -21,8 +21,16 @@ var client = new Twitter({
 });
 
 if (command === 'my-tweets') {
-    client.get('search/tweets', {q: 'ThequinnboxJoe'}, function(error, tweets, response) {
-        console.log(tweets);
+    client.get('statuses/user_timeline', {q: 'ThequinnboxJoe'}, function(error, tweets, response) {
+        var printTweets = '--------------------\n' +
+                "TheQuinnBox's Tweets:\n" +
+                '--------------------\n\n';
+            for (var i = 0; i < tweets.length; i++) {
+                printTweets += 'Created on: ' + tweets[i].created_at + '\n' +
+                     tweets[i].text + '\n' +
+                    '--------------------\n';
+            }
+            console.log(printTweets);
     });
 }
 
@@ -31,16 +39,21 @@ if (command === 'my-tweets') {
 //----------------------------------------
 
 var spotify = new Spotify({
-id: process.env.SPOTIFY_ID,
-secret: process.env.SPOTIFY_SECRET
+    id: process.env.SPOTIFY_ID,
+    secret: process.env.SPOTIFY_SECRET
 });
 
 if (command === 'spotify-this-song') {
-    spotify.search({ type: 'track', query: encodedTitle }, function(err, data) {
-    console.log(data.tracks.items.name); 
-    });
+        spotify.search({ type: 'track', query: encodedTitle }, function(err, data) {
+            console.log("-------------------------------")
+            console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+            console.log("Song Name: " + data.tracks.items[0].name);
+            console.log("Album: " + data.tracks.items[0].album.name);
+            console.log("Preview Link: " + data.tracks.items[0].preview_url); 
+            console.log("--------------------------------")
+        })
 };
-//data.tracks.items
+
 // ---------------------------------------
 //             OMDB SEARCH            
 //----------------------------------------
@@ -49,34 +62,38 @@ const queryUrl = 'http://www.omdbapi.com/?t=' + encodedTitle + '&y=&plot=short&a
 const queryUrlDefault = 'http://www.omdbapi.com/?t=' + "Mr." + "Nobody" + '&y=&plot=short&apikey=trilogy';
 
 if (command === "movie-this") {
-        if (encodedTitle == false) {
-            request(queryUrlDefault, function(error, response, body) {
-                if (!error && response.statusCode === 200) {
-                console.log('Title: ' + JSON.parse(body).Title);
-                console.log('Release Year: ' + JSON.parse(body).Year);
-                console.log('IMDB Rating: ' + JSON.parse(body).imdbRating);
-                console.log('Rotten Tomoatoes Rating: ' + JSON.parse(body).Ratings[1].Value);
-                console.log('Counrty of Origin: ' + JSON.parse(body).Country);
-                console.log('Language: ' + JSON.parse(body).Language);
-                console.log('Plot: ' + JSON.parse(body).Plot);
-                console.log('Actors ' + JSON.parse(body).Actors);
-                }
-            });
-        } else {
-            request(queryUrl, function(error, response, body) {
-                if (!error && response.statusCode === 200) {
-                console.log('Title: ' + JSON.parse(body).Title);
-                console.log('Release Year: ' + JSON.parse(body).Year);
-                console.log('IMDB Rating: ' + JSON.parse(body).imdbRating);
-                console.log('Rotten Tomoatoes Rating: ' + JSON.parse(body).Ratings[1].Value);
-                console.log('Counrty of Origin: ' + JSON.parse(body).Country);
-                console.log('Language: ' + JSON.parse(body).Language);
-                console.log('Plot: ' + JSON.parse(body).Plot);
-                console.log('Actors ' + JSON.parse(body).Actors);
-                }
-            });
-        }
+    if (encodedTitle == false) {
+        request(queryUrlDefault, function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+            console.log("-------------------------------")
+            console.log('Title: ' + JSON.parse(body).Title);
+            console.log('Release Year: ' + JSON.parse(body).Year);
+            console.log('IMDB Rating: ' + JSON.parse(body).imdbRating);
+            console.log('Rotten Tomoatoes Rating: ' + JSON.parse(body).Ratings[1].Value);
+            console.log('Counrty of Origin: ' + JSON.parse(body).Country);
+            console.log('Language: ' + JSON.parse(body).Language);
+            console.log('Plot: ' + JSON.parse(body).Plot);
+            console.log('Actors ' + JSON.parse(body).Actors);
+            console.log("-------------------------------")
+            }
+        });
+    } else {
+        request(queryUrl, function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+            console.log("-------------------------------")
+            console.log('Title: ' + JSON.parse(body).Title);
+            console.log('Release Year: ' + JSON.parse(body).Year);
+            console.log('IMDB Rating: ' + JSON.parse(body).imdbRating);
+            console.log('Rotten Tomoatoes Rating: ' + JSON.parse(body).Ratings[1].Value);
+            console.log('Counrty of Origin: ' + JSON.parse(body).Country);
+            console.log('Language: ' + JSON.parse(body).Language);
+            console.log('Plot: ' + JSON.parse(body).Plot);
+            console.log('Actors ' + JSON.parse(body).Actors);
+            console.log("-------------------------------")
+            }
+        });
     }
+}
 
 // ---------------------------------------
 //            DO WHAT IT SAYS            
@@ -87,8 +104,18 @@ if (command === "do-what-it-says") {
     if (error) {
         return console.log(error);
     }
-    console.log(data);
     var dataArr = data.split(",");
-    console.log(dataArr);
+    var command = dataArr[0];
+    var encodedTitle = dataArr[1];
+        if (command === 'spotify-this-song') {
+            spotify.search({ type: 'track', query: encodedTitle }, function(err, data) {
+                console.log("-------------------------------")
+                console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+                console.log("Song Name: " + data.tracks.items[0].name);
+                console.log("Album: " + data.tracks.items[0].album.name);
+                console.log("Preview Link: " + data.tracks.items[0].preview_url); 
+                console.log("--------------------------------")
+            })
+        };
     });
 }
