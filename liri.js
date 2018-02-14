@@ -37,10 +37,10 @@ secret: process.env.SPOTIFY_SECRET
 
 if (command === 'spotify-this-song') {
     spotify.search({ type: 'track', query: encodedTitle }, function(err, data) {
-    console.log(data); 
+    console.log(data.tracks.items.name); 
     });
 };
-
+//data.tracks.items
 // ---------------------------------------
 //             OMDB SEARCH            
 //----------------------------------------
@@ -50,7 +50,6 @@ const queryUrlDefault = 'http://www.omdbapi.com/?t=' + "Mr." + "Nobody" + '&y=&p
 
 if (command === "movie-this") {
         if (encodedTitle == false) {
-            console.log(queryUrlDefault);
             request(queryUrlDefault, function(error, response, body) {
                 if (!error && response.statusCode === 200) {
                 console.log('Title: ' + JSON.parse(body).Title);
